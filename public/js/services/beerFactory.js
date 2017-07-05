@@ -13,6 +13,7 @@ app.factory('beerFactory', function ($http) {
   //adding a beer to DB
   var addBeer = function (newBeer) {
 
+    
     console.log(newBeer);
 
     return $http.post('/beers', newBeer)
