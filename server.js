@@ -40,13 +40,7 @@ app.get('/beers', function (req, res, next) {
 
 // to fetch all the beers data
 app.post('/beers', function (req, res, next) {
-  var BeerToSave = new Beer({
-    name: req.body.name,
-    style: req.body.style,
-    image_url: req.body.image_url,
-    abv: req.body.abv,
-    ratings: [req.body.ratings]
-  });
+  var BeerToSave = new Beer(req.body);
   BeerToSave.save(handler(res, next));
   // Beer.findOne({
   //   name: BeerToSave.name
