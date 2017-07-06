@@ -31,6 +31,8 @@ app.factory('beerFactory', function ($http) {
       })
   }
 
+  var rateBeer
+
   //return all the properties
   return {
     getBeersFromDB: getBeersFromDB,

@@ -39,12 +39,12 @@
 						<img class="image-url" ng-src="{{beer.image_url}}" align="middle">
 					</div>
 
-					<div class="beer-info">
+					<div class="beer-info" data-id="{{beer._id}}">
 						<h4 class="beer-name">Name: {{beer.name}}</h4>
 						<h5 class="beer-style">Style: {{beer.style}}</h5>
 						<h5 class="beer-abv">ABV: {{beer.abv | number :1}}%</h5>
-						<h5 class="beer-rating">Ratings: {{beer.ratings}}</h5>
-						<star-rating-comp label-text="'Rate Beer!'" show-hover-stars="true" show-half-stars="true"></star-rating-comp>
+						<h5 class="beer-rating">Ratings: {{avarageRating(beer)}}</h5>
+						<my-star dyn-attr="attrs" ng-click="rateBeer($event)"></my-star>
 
 						<br>
 						<button class="btn btn-xs btn-danger" ng-click="removeBeer()">Remove Beer</button>
@@ -58,6 +58,7 @@
 	<script src="angular/angular.js"></script>
 	<script src="angular1-star-rating/dist/index.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/directives/dynattr.js"></script>
 	<script src="js/services/beerFactory.js"></script>
 	<script src="js/controllers/mainController.js"></script>
 </body>

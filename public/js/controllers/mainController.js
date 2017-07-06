@@ -55,9 +55,36 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
     //     console.log(error)
     //   });
   }
-
-  $scope.rateBeer = function (rating) {
-    console.log(rating);
+  $scope.attrs = [{
+      attr: 'read-only',
+      value: 'true'
+    }
+  ];
+  $scope.dis = true;
+  $scope.rateBeer = function (event) {
+    console.log(parent.rating);
+    console.log(angular.element(event.target).parent().parent().parent()[0]);
+    // stars.getAttributeNode('disabled').value = "true";
+    console.log(this.beer._id);
+    // debugger;
   }
+
+  $scope.avarageRating = function (beer) {
+    if (!beer.ratings.length) {
+      return 0;
+    }
+    var avarage = 0;
+    for (var i = 0; i < beer.ratings.length; i++) {
+      avarage += beer.ratings[i];
+    }
+    avarage /= beer.ratings.length;
+    return avarage.toFixed(1);
+  }
+
+  $scope.doStuff = function (item) {
+    debugger;
+    console.log(angular.element(item).parent().parent());
+  };
+
 
 })
