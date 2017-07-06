@@ -1,6 +1,7 @@
 var express = require('express');
-var bodyParser = require('body-parser')
-var mongoose = require('mongoose')
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var _ = require('lodash');
 var app = express();
 var Beer = require("./beerModel.js");
 
@@ -88,8 +89,6 @@ app.post('/beers/:_id/ratings', function (req, res, next) {
     new: true
   }, handler(res, next));
 });
-
-
 
 
 

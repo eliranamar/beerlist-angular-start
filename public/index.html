@@ -30,6 +30,8 @@
 					</div>
 					<button type="submit" class="btn btn-primary">Add</button>
 				</form>
+
+				<div class="btn btn-sm btn-warning" ng-click="sortBeers()">Sort beers by rating</div>
 			</div>
 
 
@@ -40,14 +42,19 @@
 					</div>
 
 					<div class="beer-info">
-						<h4 class="beer-name">Name: {{beer.name}}</h4>
+						<h4 class="beer-name">{{beer.name}}</h4>
 						<h5 class="beer-style">Style: {{beer.style}}</h5>
 						<h5 class="beer-abv">ABV: {{beer.abv | number :1}}%</h5>
-						<h5 class="beer-rating">Ratings: {{beer.ratings}}</h5>
-						<star-rating-comp label-text="'Rate Beer!'" show-hover-stars="true" show-half-stars="true"></star-rating-comp>
+						<h5 class="beer-rating">Ratings: {{avarageRating(beer)}}</h5>
+						<div class="stars-box"  >
+							<star-rating-comp ng-disabled="beer.ratings >0" label-position="'bottom'" 
+							label-text="'Rate Beer!'" show-hover-stars="true" 
+							show-half-stars="true" on-click="rateBeer($event)">
+							</star-rating-comp>
+						</div>
 
 						<br>
-						<button class="btn btn-xs btn-danger" ng-click="removeBeer()">Remove Beer</button>
+						<button ng-disabled="true" class="btn btn-xs btn-danger" ng-click="removeBeer()">Remove Beer</button>
 					</div>
 				</div>
 			</div>

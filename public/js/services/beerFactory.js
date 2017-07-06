@@ -13,7 +13,7 @@ app.factory('beerFactory', function ($http) {
   //adding a beer to DB
   var addBeer = function (newBeer) {
 
-    
+
     console.log(newBeer);
 
     return $http.post('/beers', newBeer)
@@ -31,10 +31,19 @@ app.factory('beerFactory', function ($http) {
       })
   }
 
+  var rateBeer = function (beer) {
+    console.log(beer);
+    return $http.post('/beers/'+beer._id+'/ratings', beer)
+      .then(function (response) {
+        return angular.copy(response.data);
+      })
+  }
+
   //return all the properties
   return {
     getBeersFromDB: getBeersFromDB,
     addBeer: addBeer,
-    removeBeer: removeBeer
+    removeBeer: removeBeer,
+    rateBeer: rateBeer
   }
 })
