@@ -16,3 +16,7 @@ body {
   margin: 10px 0px;
 }
 
+div.star-container {
+  width: 100px;
+  height: 20px;
+}

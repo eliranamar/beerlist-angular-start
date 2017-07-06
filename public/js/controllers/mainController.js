@@ -12,10 +12,6 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
     });
 
   $scope.addBeer = function () {
-    console.log(this.name);
-    console.log(this.style);
-    console.log(this.abv);
-    console.log(this.image);
     if (typeof (this.name) != 'string' || typeof (this.style) != 'string' ||
       typeof (this.abv) != 'string' || typeof (this.image) != 'string') {
       alert('not valid inputs');
@@ -26,10 +22,10 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
       style: this.style,
       image_url: this.image,
       abv: this.abv,
-      ratings: []
+      ratings: [],
+      avarage: 0
     };
-    // $scope.beers.push(newBeer);
-    console.log($scope.beers);
+
     beerFactory.addBeer(newBeer)
       .then(function (beerFromServer) {
         $scope.beers.push(beerFromServer);
@@ -55,20 +51,35 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
     //     console.log(error)
     //   });
   }
-  $scope.attrs = [{
-      attr: 'read-only',
-      value: 'true'
-    }
-  ];
-  $scope.dis = true;
+
+  // rate the beer and send it to server
   $scope.rateBeer = function (event) {
-    console.log(parent.rating);
-    console.log(angular.element(event.target).parent().parent().parent()[0]);
-    // stars.getAttributeNode('disabled').value = "true";
-    console.log(this.beer._id);
-    // debugger;
+    var index = this.$index;
+    var beer = {
+      _id: this.beer._id,
+      ratings: event.rating
+    }
+    this.beer.ratings = event.rating;
+    // console.log(angular.element(document).find('star-rating-comp')[index]);
+    // angular.element(document).find('star-rating-comp')[index]
+    var myEl = angular.element(document.querySelectorAll('star-rating-comp')[index]);
+    var parentEl = myEl.parent();
+    // parentEl.attr('ng-disabled', 'true');
+    // parentEl.attr("ng-", "width:100px;height:49.55px;");
+    // parentEl.empty();
+    // console.log(myEl.children().children()[1]);
+    // myEl.children().children()[1].setAttribute('ng-hide', 'true');
+    // beerFactory.rateBeer(beer)
+    //   .then(function (beerFromServer) {
+    //     console.log(angular.element(event.target).parent().parent().parent()[0]);
+    //     $scope.beers[index] = beerFromServer;
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   });
   }
 
+  // calc the avrg rating per beer
   $scope.avarageRating = function (beer) {
     if (!beer.ratings.length) {
       return 0;
@@ -78,13 +89,26 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
       avarage += beer.ratings[i];
     }
     avarage /= beer.ratings.length;
-    return avarage.toFixed(1);
+    beer.avarage = avarage;
+    return beer.avarage.toFixed(1);
   }
 
-  $scope.doStuff = function (item) {
-    debugger;
-    console.log(angular.element(item).parent().parent());
-  };
+  var flag = false;
+  // Sort Beers By Rating
+  $scope.sortBeers = function () {
+    $scope.beers.sort(dynamicSort('avarage', flag));
+    flag = !flag;
+  }
+
+  var dynamicSort = function (prop, flag) {
+    return function (a, b) {
+      if (flag) {
+        return (a[prop] < b[prop]) ? -1 : (a[prop] > b[prop]) ? 1 : 0;
+      } else {
+        return (a[prop] > b[prop]) ? -1 : (a[prop] < b[prop]) ? 1 : 0;
+      }
+    };
+  }
 
 
 })
