@@ -26,6 +26,7 @@ var handler = function (res, next) {
   }
 }
 
+// for getting all the beers
 app.get('/beers', function (req, res, next) {
   Beer.find(function (err, beers) {
     if (err) {
@@ -37,7 +38,13 @@ app.get('/beers', function (req, res, next) {
       res.json(beers);
     }
   })
-});//////////////////////////////
+}); //////////////////////////////
+
+
+// find a single beer by id
+app.get('/beers/:_id', function (req, res, next) {
+  Beer.findById(req.params._id, handler(res, next));
+});
 
 // to fetch all the beers data
 app.post('/beers', function (req, res, next) {
@@ -52,29 +59,25 @@ app.post('/beers', function (req, res, next) {
   //     data.save(handler(res, next));
   //   }
   // });
-});//////////////////////////////
+}); //////////////////////////////
 
 // delete a beer by id
 app.delete('/beers/:_id', function (req, res, next) {
   Beer.findByIdAndRemove(req.params._id, handler(res, next), function () {
     console.log('--- BEER DELETED ---');
   });
-});////////////////////////////
+}); ////////////////////////////
 
 // for updating a beer 
 app.put('/beers/:_id', function (req, res, next) {
+  console.log(req.body);
   var updateObject = {
-    $set: {
-      name: req.body.name,
-      style: req.body.style,
-      image_url: req.body.image_url,
-      abv: req.body.abv
-    }
+    $set: req.body
   };
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-});///////////////////////////
+}); /////////////////////////////////
 
 // for adding a rating to a beer
 app.post('/beers/:_id/ratings', function (req, res, next) {
@@ -88,7 +91,7 @@ app.post('/beers/:_id/ratings', function (req, res, next) {
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-});//////////////////////////////////
+}); //////////////////////////////////
 
 // for adding reviews for a beer
 app.post('/beers/:_id/reviews', function (req, res, next) {
@@ -100,7 +103,7 @@ app.post('/beers/:_id/reviews', function (req, res, next) {
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-});/////////////////////////////////////
+}); /////////////////////////////////////
 
 // for deleting review from a beer
 app.delete('/beers/:_id/reviews/:review_id', function (req, res, next) {
@@ -114,7 +117,7 @@ app.delete('/beers/:_id/reviews/:review_id', function (req, res, next) {
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-})///////////////////////////////////////
+}) ///////////////////////////////////////
 
 
 

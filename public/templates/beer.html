@@ -1,0 +1,33 @@
+<div class="page-header">
+  <a ui-sref="home">Home</a>
+  <h3>
+    <span>{{beer.name}}</span>
+  </h3>
+  <h4>Reviews:</h4>
+  <div class="reviews-box">
+    <ul>
+      <li ng-repeat="review in beer.reviews">
+        <strong>{{review.name}}: </strong> {{review.text}} - <button class="btn btn-danger btn-xs" ng-click="deleteReview()">delete review</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row">
+
+    <form name="myForm" class="review-form col-md-6 col-lg-6">
+
+      <div class="form-group">
+        <label>User:</label>
+        <input ng-model="name" type="text" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Your Review:</label>
+        <input ng-model="text" type="text" class="form-control" required>
+      </div>
+
+      <button ng-disabled="myForm.$invalid" type="submit" class="btn btn-primary" ng-click="addReview()">Submit</button>
+    </form>
+
+  </div>
+</div>
