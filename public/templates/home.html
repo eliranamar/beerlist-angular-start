@@ -39,7 +39,7 @@
           <h5 class="beer-style">Style: {{beer.style}}</h5>
           <h5 class="beer-abv">ABV: {{beer.abv | number :1}}%</h5>
           <h5 class="beer-rating">Ratings: {{avarageRating(beer)}}</h5>
-          <a ui-sref="beer({id: beer._id, beerParam: beer})">Reviews</a>
+          <a ui-sref="beer({id: beer._id, beerParam: beer})">Reviews({{beer.reviews.length}})</a>
           <div class="stars-box">
             <star-rating-comp ng-disabled="beer.ratings >0" label-position="'bottom'" label-text="'Rate Beer!'" show-hover-stars="true"
               show-half-stars="true" on-click="rateBeer($event)">
