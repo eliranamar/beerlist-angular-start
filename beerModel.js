@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 
-var reviewSchema = new Schema({
+var reviewSchema = new mongoose.Schema({
   name: String,
-  text: String
+  text: String,
+  beer_id: String
 });
 
 var beerSchema = new mongoose.Schema({

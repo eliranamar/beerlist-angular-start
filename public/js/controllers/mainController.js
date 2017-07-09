@@ -12,7 +12,7 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
       console.log(error)
     });
 
-    // add beer to DB
+  // add beer to DB
   $scope.addBeer = function () {
     if (typeof (this.name) != 'string' || typeof (this.style) != 'string' ||
       typeof (this.abv) != 'string' || typeof (this.image) != 'string') {
@@ -111,6 +111,28 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
         return (a[prop] > b[prop]) ? -1 : (a[prop] < b[prop]) ? 1 : 0;
       }
     };
+  }
+
+  $scope.editBeer = function (index) {
+    this.tempBeer = angular.copy($scope.beers[index]);
+
+  }
+
+  $scope.updateBeer = function (beerCopy, index) {
+    var self = this;
+    //calling the update beer on the service to send the new info to the server
+    beerFactory.updateBeer(beerCopy)
+      .then(function (modifiedBeer) {
+        console.log(modifiedBeer);
+        //when the server finished updating successfully, replace the original beer with the modified version
+        $scope.beers[index] = modifiedBeer;
+        // 'self' refers to the beer scope (we assigned it earlier because in here 'this' is something else)
+        self.tempBeer = null;
+      })
+      .catch(function (err) {
+        //if something has gone wrong then alert the user
+        alert(err.data.message);
+      });
   }
 
 

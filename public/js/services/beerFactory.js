@@ -10,6 +10,16 @@ app.factory('beerFactory', function ($http) {
       });
   }
 
+  // fetching a single beer by id
+  var getBeerFromDBById = function (_id) {
+    return $http.get('/beers/' + _id)
+      .then(function (response) {
+        return angular.copy(response.data);
+      });
+  }
+
+
+
   //adding a beer to DB
   var addBeer = function (newBeer) {
     console.log(newBeer);
@@ -30,10 +40,34 @@ app.factory('beerFactory', function ($http) {
 
   var rateBeer = function (beer) {
     console.log(beer);
-    return $http.post('/beers/'+beer._id+'/ratings', beer)
+    return $http.post('/beers/' + beer._id + '/ratings', beer)
       .then(function (response) {
         return angular.copy(response.data);
       })
+  }
+
+
+  var updateBeer = function (beer) {
+    // console.log(beer);
+    return $http.put('/beers/' + beer._id, beer)
+      .then(function (response) {
+        return response.data
+      });
+  }
+
+  var addReview = function (review) {
+    return $http.post('/beers/' + review.beer_id + '/reviews', review)
+      .then(function (response) {
+        return response.data
+      });
+  }
+
+  var deleteReview = function (review) {
+    return $http.delete('/beers/' + review.beer_id +
+        '/reviews/' + review.review_id, review)
+      .then(function (response) {
+        return response.data
+      });
   }
 
   //return all the properties
@@ -41,6 +75,10 @@ app.factory('beerFactory', function ($http) {
     getBeersFromDB: getBeersFromDB,
     addBeer: addBeer,
     removeBeer: removeBeer,
-    rateBeer: rateBeer
+    rateBeer: rateBeer,
+    updateBeer: updateBeer,
+    getBeerFromDBById: getBeerFromDBById,
+    addReview: addReview,
+    deleteReview: deleteReview
   }
 })
