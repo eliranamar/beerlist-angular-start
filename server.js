@@ -37,7 +37,7 @@ app.get('/beers', function (req, res, next) {
       res.json(beers);
     }
   })
-})
+});//////////////////////////////
 
 // to fetch all the beers data
 app.post('/beers', function (req, res, next) {
@@ -52,14 +52,14 @@ app.post('/beers', function (req, res, next) {
   //     data.save(handler(res, next));
   //   }
   // });
-});
+});//////////////////////////////
 
 // delete a beer by id
 app.delete('/beers/:_id', function (req, res, next) {
   Beer.findByIdAndRemove(req.params._id, handler(res, next), function () {
     console.log('--- BEER DELETED ---');
   });
-})
+});////////////////////////////
 
 // for updating a beer 
 app.put('/beers/:_id', function (req, res, next) {
@@ -74,7 +74,7 @@ app.put('/beers/:_id', function (req, res, next) {
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-})
+});///////////////////////////
 
 // for adding a rating to a beer
 app.post('/beers/:_id/ratings', function (req, res, next) {
@@ -88,7 +88,33 @@ app.post('/beers/:_id/ratings', function (req, res, next) {
   Beer.findByIdAndUpdate(req.params._id, updateObject, {
     new: true
   }, handler(res, next));
-});
+});//////////////////////////////////
+
+// for adding reviews for a beer
+app.post('/beers/:_id/reviews', function (req, res, next) {
+  var updateObject = {
+    $push: {
+      reviews: req.body
+    }
+  };
+  Beer.findByIdAndUpdate(req.params._id, updateObject, {
+    new: true
+  }, handler(res, next));
+});/////////////////////////////////////
+
+// for deleting review from a beer
+app.delete('/beers/:_id/reviews/:review_id', function (req, res, next) {
+  var updateObject = {
+    $pull: {
+      reviews: {
+        _id: req.params.review_id
+      }
+    }
+  };
+  Beer.findByIdAndUpdate(req.params._id, updateObject, {
+    new: true
+  }, handler(res, next));
+})///////////////////////////////////////
 
 
 
