@@ -2,6 +2,7 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
 
   $scope.beers = [];
 
+  // fetch all beers from DB
   beerFactory.getBeersFromDB()
     .then(function (beers) {
       $scope.beers = beers;
@@ -11,6 +12,7 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
       console.log(error)
     });
 
+    // add beer to DB
   $scope.addBeer = function () {
     if (typeof (this.name) != 'string' || typeof (this.style) != 'string' ||
       typeof (this.abv) != 'string' || typeof (this.image) != 'string') {
@@ -35,21 +37,22 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
       });
   }
 
+  // remove beer from DB
   $scope.removeBeer = function () {
     console.log($scope.beers);
     console.log(this.beer);
-    // beerFactory.removeBeer(this.beer._id)
-    //   .then(function (data) {
-    //     for (var i = 0; i < $scope.beers.length; i++) {
-    //       if (data._id === $scope.beers[i]._id) {
-    //         $scope.beers.splice(i, 1);
-    //         break;
-    //       }
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   });
+    beerFactory.removeBeer(this.beer._id)
+      .then(function (data) {
+        for (var i = 0; i < $scope.beers.length; i++) {
+          if (data._id === $scope.beers[i]._id) {
+            $scope.beers.splice(i, 1);
+            break;
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      });
   }
 
   // rate the beer and send it to server
@@ -65,18 +68,18 @@ app.controller('mainCtrl', function ($scope, beerFactory) {
     var myEl = angular.element(document.querySelectorAll('star-rating-comp')[index]);
     var parentEl = myEl.parent();
     // parentEl.attr('ng-disabled', 'true');
-    // parentEl.attr("ng-", "width:100px;height:49.55px;");
-    // parentEl.empty();
+    parentEl.attr("style", "width:100px;height:49.55px;");
+    parentEl.empty();
     // console.log(myEl.children().children()[1]);
     // myEl.children().children()[1].setAttribute('ng-hide', 'true');
-    // beerFactory.rateBeer(beer)
-    //   .then(function (beerFromServer) {
-    //     console.log(angular.element(event.target).parent().parent().parent()[0]);
-    //     $scope.beers[index] = beerFromServer;
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   });
+    beerFactory.rateBeer(beer)
+      .then(function (beerFromServer) {
+        console.log(angular.element(event.target).parent().parent().parent()[0]);
+        $scope.beers[index] = beerFromServer;
+      })
+      .catch(function (error) {
+        console.log(error)
+      });
   }
 
   // calc the avrg rating per beer

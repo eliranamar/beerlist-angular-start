@@ -1,6 +1,6 @@
 app.factory('beerFactory', function ($http) {
 
-  var beers = [];
+  // var beers = [];
 
   //fetching the beers from DB
   var getBeersFromDB = function () {
@@ -12,10 +12,7 @@ app.factory('beerFactory', function ($http) {
 
   //adding a beer to DB
   var addBeer = function (newBeer) {
-
-
     console.log(newBeer);
-
     return $http.post('/beers', newBeer)
       .then(function (response) {
         return angular.copy(response.data);
