@@ -19,7 +19,7 @@
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Image URL" ng-model="image"></input>
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <button ng-disabled="!currentUser.username" type="submit" class="btn btn-primary">Add</button>
     </form>
 
     <div class="btn btn-sm btn-warning" ng-click="sortBeers()">Sort beers by rating</div>
@@ -40,14 +40,14 @@
           <h5 class="beer-abv">ABV: {{beer.abv | number :1}}%</h5>
           <h5 class="beer-rating">Ratings: {{avarageRating(beer)}}</h5>
           <a ui-sref="beer({id: beer._id, beerParam: beer})">Reviews({{beer.reviews.length}})</a>
-          <div class="stars-box">
+          <div ng-hide="!currentUser.username" class="stars-box">
             <star-rating-comp ng-disabled="beer.ratings >0" label-position="'bottom'" label-text="'Rate Beer!'" show-hover-stars="true"
               show-half-stars="true" on-click="rateBeer($event)">
             </star-rating-comp>
           </div>
 
           <br>
-          <button ng-click="editBeer($index)" class="btn btn-sm btn-warning">Edit Beer</button>
+          <button ng-disabled="!currentUser.username" ng-click="editBeer($index)" class="btn btn-sm btn-warning">Edit Beer</button>
           <br>
           <br>
           <button ng-disabled="true" class="btn btn-xs btn-danger" ng-click="removeBeer()">Remove Beer</button>

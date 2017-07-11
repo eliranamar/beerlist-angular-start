@@ -15,6 +15,18 @@ var handler = function (res, next) {
   }
 }
 
+
+var ensureAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    return res.status('401').send({
+      message: "Unauthorized"
+    });
+  }
+};
+
+
 // for getting all the beers
 router.get('/', function (req, res, next) {
   Beer.find(function (err, beers) {
@@ -36,7 +48,7 @@ router.get('/:_id', function (req, res, next) {
 });
 
 // to fetch all the beers data
-router.post('/', function (req, res, next) {
+router.post('/', ensureAuthenticated, function (req, res, next) {
   var BeerToSave = new Beer(req.body);
   BeerToSave.save(handler(res, next));
   // Beer.findOne({
@@ -51,14 +63,14 @@ router.post('/', function (req, res, next) {
 }); //////////////////////////////
 
 // delete a beer by id
-router.delete('/:_id', function (req, res, next) {
+router.delete('/:_id', ensureAuthenticated, function (req, res, next) {
   Beer.findByIdAndRemove(req.params._id, handler(res, next), function () {
     console.log('--- BEER DELETED ---');
   });
 }); ////////////////////////////
 
 // for updating a beer 
-router.put('/:_id', function (req, res, next) {
+router.put('/:_id', ensureAuthenticated, function (req, res, next) {
   console.log(req.body);
   var updateObject = {
     $set: req.body
@@ -69,7 +81,7 @@ router.put('/:_id', function (req, res, next) {
 }); /////////////////////////////////
 
 // for adding a rating to a beer
-router.post('/:_id/ratings', function (req, res, next) {
+router.post('/:_id/ratings', ensureAuthenticated, function (req, res, next) {
   //code a suitable update object 
   //using req.body to retrieve the new rating
   var updateObject = {
@@ -83,7 +95,7 @@ router.post('/:_id/ratings', function (req, res, next) {
 }); //////////////////////////////////
 
 // for adding reviews for a beer
-router.post('/:_id/reviews', function (req, res, next) {
+router.post('/:_id/reviews', ensureAuthenticated, function (req, res, next) {
   var updateObject = {
     $push: {
       reviews: req.body
@@ -95,7 +107,7 @@ router.post('/:_id/reviews', function (req, res, next) {
 }); /////////////////////////////////////
 
 // for deleting review from a beer
-router.delete('/:_id/reviews/:review_id', function (req, res, next) {
+router.delete('/:_id/reviews/:review_id', ensureAuthenticated, function (req, res, next) {
   var updateObject = {
     $pull: {
       reviews: {
