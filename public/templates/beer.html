@@ -7,7 +7,7 @@
   <div class="reviews-box">
     <ul>
       <li ng-repeat="review in beer.reviews">
-        <strong>{{review.name}}: </strong> {{review.text}} - <button class="btn btn-danger btn-xs" ng-click="deleteReview()">delete review</button>
+        <strong>{{review.name}}: </strong> {{review.text}} - <button  class="btn btn-danger btn-xs" ng-click="deleteReview()">delete review</button>
       </li>
     </ul>
   </div>
@@ -26,7 +26,7 @@
         <input ng-model="text" type="text" class="form-control" required>
       </div>
 
-      <button ng-disabled="myForm.$invalid" type="submit" class="btn btn-primary" ng-click="addReview()">Submit</button>
+      <button ng-disabled="!currentUser.username" ng-disabled="myForm.$invalid" type="submit" class="btn btn-primary" ng-click="addReview()">Submit</button>
     </form>
 
   </div>

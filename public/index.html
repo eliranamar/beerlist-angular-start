@@ -1,14 +1,26 @@
 <html>
 
 <head>
+	<base href="/">
 	<link href="bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body ng-app="beerList">
 
-	<div ui-view class="container">
-
+	<div class="container" ng-controller="masterController">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" ui-sref="home">Beerlist</a>
+				</div>
+				<p ng-show="currentUser.username" class="navbar-text">Welcome, {{currentUser.username}}</p>
+				<button type="button" ng-show="currentUser.username" ng-click="logout()" class="btn btn-default navbar-btn">Log Out</button>
+				<a type="button" ui-sref="login" ng-hide="currentUser.username" class="btn btn-default navbar-btn">Log In</a>
+				<a type="button" ui-sref="register" ng-hide="currentUser.username" class="btn btn-default navbar-btn">Register</a>
+			</div>
+		</nav>
+		<ui-view></ui-view>
 	</div>
 
 	<script src="angular/angular.js"></script>
@@ -17,8 +29,11 @@
 	<script src="angular1-star-rating/dist/index.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/services/beerFactory.js"></script>
+	<script src="js/services/authFactory.js"></script>
 	<script src="js/controllers/mainController.js"></script>
 	<script src="js/controllers/beerController.js"></script>
+	<script src="js/controllers/authController.js"></script>
+	<script src="js/controllers/masterController.js"></script>
 </body>
 
 </html>
