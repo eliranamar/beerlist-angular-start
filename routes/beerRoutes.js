@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
       return next(err);
     } else {
       console.log('---  FETHING BEERS ---');
-      console.log(beers);
+      // console.log(beers);
       res.json(beers);
     }
   })
@@ -108,25 +108,5 @@ router.delete('/:_id/reviews/:review_id', function (req, res, next) {
   }, handler(res, next));
 }) ///////////////////////////////////////
 
-// for unhabdled routes return to home
-router.all('[^.]+', function (req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
-// error handler to catch 404 and forward to main error handler
-router.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// main error handler
-// warning - not for use in production code!
-router.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.send({
-    message: err.message,
-    error: err
-  });
-});
 
 module.exports = router;
